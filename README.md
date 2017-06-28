@@ -34,7 +34,7 @@ Install ccloud-node-console-client from source
 	export CPPFLAGS=-I/usr/local/opt/openssl/include
 	export LDFLAGS=-L/usr/local/opt/openssl/lib
 	cd /tmp	
-	git clone git@github.com:hjespers/ccloud-node-console-client-ccloud.git
+	git clone git@github.com:hjespers/ccloud-node-console-client.git
 	sudo -E npm install -g /tmp/ccloud-node-console-client
 
 
