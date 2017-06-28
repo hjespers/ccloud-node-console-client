@@ -48,15 +48,16 @@ if ( argv.help === true ) {
 if (!argv.cgid) {
     argv.cgid = 'node-console-consumer' + Math.floor(Math.random() * (1000000));
 }
-if (argv.verbose) {
-    console.log('Using consumer group.id = ' + argv.cgid);
-}
 
 var reset = 'largest';
 if (argv.beginning) {
     reset = 'smallest';
 }
-console.log('auto.offset.reset = ' + reset);
+
+if (argv.verbose) {
+    console.log('Using consumer group.id = ' + argv.cgid);
+    console.log('Setting auto.offset.reset = ' + reset);
+}
 
 var consumer;
 try{

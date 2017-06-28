@@ -44,7 +44,6 @@ try {
     producer = new Kafka.Producer({
         'client.id': 'ccloud-node-console-producer',
         'metadata.broker.list': argv.endpoint,
-        //'compression.codec': 'gzip',
         'retry.backoff.ms': 200,
         'message.send.max.retries': 15,
         'socket.keepalive.enable': true,
@@ -70,7 +69,7 @@ try {
 
             prompt.start();
 
-            prompt.get(['key', 'value', 'partition'], function (err, result) {
+            prompt.get(['key', 'value'], function (err, result) {
                 if (err) { return onErr(err); }
                 console.log('Command-line input received:');
                 console.log('  Message key: ' + result.key);
@@ -116,8 +115,6 @@ try {
         console.log("Caught interrupt signal");
         producer.disconnect();
     });
-
- 
 
 } catch(e) {
     console.log('Caught error: ' + e);    
