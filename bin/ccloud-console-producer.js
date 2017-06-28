@@ -1,10 +1,11 @@
-"use strict";
+#!/usr/bin/env node
+'use strict';
 
 var Kafka = require('node-rdkafka');
-var util = require("util");
 
 var argv = require('optimist')
     .usage('Usage: $0 -e <endpoint> -k <apikey> -s <apisecret> -t <topic> -S <ssl ca location> -v')
+    .demand(['e', 'k', 's', 't'])
     .boolean(['v'])
     .alias('e', 'endpoint')
     .describe('e', 'Confluent Cloud Endpoints (Broker List)')
@@ -25,7 +26,7 @@ var argv = require('optimist')
 argv = argv.argv;
 
 if ( argv.help === true ) {
-    console.log( 'Usage: ccloud-console-producer.js -e <endpoint> -k <apikey> -s <apisecret> -t <topic>');
+    console.log( 'Usage: ccloud-console-producer -e <endpoint> -k <apikey> -s <apisecret> -t <topic>');
     console.log( '\nOptions:');
     console.log( '  -e, --endpoint   Confluent Cloud Endpoints (Broker List)     [required]');
     console.log( '  -k, --apikey     Confluent Cloud API Key                     [required]');
@@ -64,7 +65,7 @@ try {
     producer
         .on('ready', function() {
             // Wait for the ready event before proceeding with input prompt
-            util.log('Confluent Cloud connection is ready');
+            console.log('Confluent Cloud connection is ready');
             var prompt = require('prompt');
 
             prompt.start();
@@ -82,7 +83,7 @@ try {
                 } 
 
                 if (result.value === null || argv.topic === "") {                    
-                    util.log("Ignored request to send a NULL message or NULL topic");
+                    console.log("Ignored request to send a NULL message or NULL topic");
                     process.exit();
                 } else {
                     producer.produce(

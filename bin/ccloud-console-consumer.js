@@ -1,12 +1,17 @@
-"use strict";
+#!/usr/bin/env node
+'use strict';
 
 var Kafka = require('node-rdkafka');
 var util = require('util');
 
 var argv = require('optimist')
-    .usage('Usage: $0 -e <endpoint> -k <apikey> -s <apisecret> -t <topic> -c <consumer group id> -S <ssl ca location> -v')
+    .usage('Usage: $0 -e <endpoint> -k <apikey> -s <apisecret> -t <topic> -c <consumer group id> -S <ssl ca location> -v -b')
+    .demand(['e', 'k', 's', 't'])
+    .boolean(['v', 'b'])
     .alias('e', 'endpoint')
     .describe('e', 'Confluent Cloud Endpoints (Broker List)')
+    .alias('b', 'beginning')
+    .describe('b', 'Consume messages from beginning')
     .alias('k', 'apikey')
     .describe('k', 'Confluent Cloud API Key')
     .alias('s', 'apisecret')
@@ -26,13 +31,14 @@ var argv = require('optimist')
 argv = argv.argv;
 
 if ( argv.help === true ) {
-    console.log( 'Usage: ccloud-console-consumer.js -e <endpoint> -k <apikey> -s <apisecret> -t <topic>');
+    console.log( 'Usage: ccloud-console-consumer -e <endpoint> -k <apikey> -s <apisecret> -t <topic>');
     console.log( '\nOptions:');
     console.log( '  -e, --endpoint   Confluent Cloud Endpoints (Broker List)     [required]');
     console.log( '  -k, --apikey     Confluent Cloud API Key                     [required]');
     console.log( '  -s, --apisecret  Confluent Cloud API Secret                  [required]');
     console.log( '  -t, --topic      Kafka Topic to consumer from                [required]');
     console.log( '  -v, --verbose    Verbose mode                                [boolean]');
+    console.log( '  -b, --beginning  Consume messages from beginning             [boolean]');
     console.log( '  -c, --cgid       Consumer Group ID                           [optional]');
     console.log( '  -S, --sslcaloc   SSL CA Location (default = /usr/local/etc/openssl/cert.pem)');
     console.log( '  -?, --help       Print usage information                      ');
@@ -42,7 +48,15 @@ if ( argv.help === true ) {
 if (!argv.cgid) {
     argv.cgid = 'node-console-consumer' + Math.floor(Math.random() * (1000000));
 }
-console.log('group.id = ' + argv.cgid);
+if (argv.verbose) {
+    console.log('Using consumer group.id = ' + argv.cgid);
+}
+
+var reset = 'largest';
+if (argv.beginning) {
+    reset = 'smallest';
+}
+console.log('auto.offset.reset = ' + reset);
 
 var consumer;
 try{
@@ -52,8 +66,8 @@ try{
         'client.id': 'ccloud-node-console-consumer',
         'metadata.broker.list': argv.endpoint,  //required
         'socket.keepalive.enable': true,
-        //'enable.auto.commit': false,
-        'enable.auto.commit': true,
+        'enable.auto.commit': false,
+        //'enable.auto.commit': true,
         'queue.buffering.max.ms': 1,
         'fetch.min.bytes': 1,
         'fetch.wait.max.ms': 1,         //librkafka recommendation for low latency 
@@ -64,7 +78,9 @@ try{
         'sasl.password': argv.apisecret,
         'ssl.ca.location': argv.sslcaloc,
         'api.version.request': true
-    }, {});
+    }, { 
+        'auto.offset.reset': reset
+    });
 
     //Flowing mode
     consumer.connect();
@@ -75,31 +91,39 @@ try{
             consumer.subscribe([argv.topic]);
             // comsume from the topic
             consumer.consume();
-            util.log('Created consumer subscription on topic = ' + argv.topic);
+            if (argv.verbose) {
+                console.log('Created consumer subscription on topic = ' + argv.topic);
+            }
         })
         .on('data', function(data) {
-            console.log('Got a message on topic "' + data.topic + '"');
             // Output the actual message contents
             if (argv.verbose) {
+                console.log('Got a message on topic "' + data.topic + '"');
                 console.log(util.inspect(data));
             } else {
                 console.log(data.value.toString()); 
             }
             //manual commit look like this if enable.auto.commit is set to true 
-            //console.log('calling commit');
-            //consumer.commitMessage(data);
+            if (argv.verbose) {
+                console.log('calling commit');
+            }
+            consumer.commitMessage(data);
         })
         .on('error', function(err) {
             // Here's where we'll know if something went wrong consuming from Kafka
             console.error('Error in our kafka consumer: ' + err);
         })
         .on('disconnected', function(arg) {
-            console.log('consumer disconnected. ' + JSON.stringify(arg));
+            if (argv.verbose) {
+                console.log('consumer disconnected. ' + JSON.stringify(arg));
+            }
             process.exit();
         });
 
     process.on('SIGINT', function() {
-        console.log("Caught interrupt signal");
+        if (argv.verbose) {
+            console.log("Caught interrupt signal");
+        }
         consumer.unsubscribe();
         consumer.disconnect();
     });
