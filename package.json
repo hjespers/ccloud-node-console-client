@@ -1,0 +1,30 @@
+{
+  "name": "ccloud-node-console-client",
+  "version": "0.0.1",
+  "description": "Example Node.JS producer/consumer for Confluent Cloud", "dependencies": {
+    "node-rdkafka": "^1.0.4"
+  },
+  "keywords": [
+    "nodejs",
+    "kafka",
+    "rdkafka",
+    "librdkafka",
+    "confluent",
+    "ccloud"
+  ],
+  "bin": {
+    "ccloud-console-producer": "./ccloud-console-producer.js",
+    "ccloud-console-consumer": "./ccloud-console-consumer.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hjespers/ccloud-node-console-client.git"
+  },
+  "author": {
+    "name": "Hans Jespersen",
+    "email": "hans@confluent.io",
+    "url": "https://github.com/hjespers/ccloud-node-console-client"
+  },
+  "license": "Apache 2.0",
+  "homepage": "https://github.com/hjespers/ccloud-node-console-client"
+}
