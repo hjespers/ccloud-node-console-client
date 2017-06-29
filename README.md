@@ -24,7 +24,7 @@ macOS dependencies
 * Apple Xcode command line tools (for the compiler)
 * openssl via Brew
 * Export CPPFLAGS=-I/usr/local/opt/openssl/include and LDFLAGS=-L/usr/local/opt/openssl/lib
-* Open Keychain Access, export all certificates in System Roots to a single .pem file
+* Open Keychain Access, export all certificates in System Roots to a single .pem file in `/usr/local/etc/openssl/cert.pem`
 
 # Install
 
@@ -118,6 +118,14 @@ If you see the following error when you run either console producer or consumer,
 	
 The default SSL Certificate location is `/usr/local/etc/openssl/cert.pem`  which works on macOS but every flavor of Linux puts root certificates in different places.
 
+	Ubuntu: /etc/ssl/certs
+	RedHat: /etc/pki/tls/cert.pem
+	macOS: /usr/local/etc/openssl/cert.pem (which you must create)
+
 For Ubuntu add the `-S /etc/ssl/certs` flag to specify your certificate location:
 
 	ccloud-console-producer -e $CCLOUD_BROKERS -k $CCLOUD_SASL_USERNAME -s $CCLOUD_SASL_PASSWORD -t mytopic -v -S /etc/ssl/certs
+	
+For RedHat add the `-S /etc/pki/tls/cert.pem` flag to specify your certificate location:
+
+	ccloud-console-producer -e $CCLOUD_BROKERS -k $CCLOUD_SASL_USERNAME -s $CCLOUD_SASL_PASSWORD -t mytopic -v -S /etc/pki/tls/cert.pem	
