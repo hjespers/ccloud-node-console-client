@@ -33,9 +33,7 @@ Install ccloud-node-console-client from source on macOS
 	brew install openssl
 	export CPPFLAGS=-I/usr/local/opt/openssl/include
 	export LDFLAGS=-L/usr/local/opt/openssl/lib
-	cd /tmp	
-	git clone git@github.com:hjespers/ccloud-node-console-client.git
-	sudo -E npm install -g /tmp/ccloud-node-console-client
+	sudo -E npm install -g ccloud-node-console-client
 
 Install ccloud-node-console-client from source on Ubuntu
 
@@ -43,9 +41,7 @@ Install ccloud-node-console-client from source on Ubuntu
 	sudo apt install openssl-dev
 	sudo apt install libsasl2-dev
 	sudo apt install libsasl2-modules
-	cd /tmp
-	git clone git@github.com:hjespers/ccloud-node-console-client.git
-	sudo -E npm install -g /tmp/ccloud-node-console-client
+	sudo -E npm install -g ccloud-node-console-client
 
 
 # Uninstall
