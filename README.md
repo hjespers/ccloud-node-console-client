@@ -43,8 +43,8 @@ Install ccloud-node-console-client from npm on Ubuntu
 
 Install ccloud-node-console-client from npm on CentOS
 
-	sudo yum install epel-release
-	sudo yum install nodejs
+	sudo yum install epel-release nodejs
+	sudo yum install openssl openssl-devel cyrus-sasl-devel
 	sudo npm install -g ccloud-node-console-client
 
 	
@@ -122,6 +122,8 @@ Install ccloud-node-console-client from npm on CentOS
 If you see the following error when you run either console producer or consumer, it means you have not installed librdkafka correctly with the required SSL and SASL libraries. See install instructions for installoing openssl and setting compiler flags.
 
 	Caught error: Error: Invalid value for configuration property "security.protocol"
+
+If the ccloud-console-producer or ccloud-console-consumer immediately exits to the shell prompt you are likely missing the Root CA Certificates. See the location of these certs (below) and add the correct `-S` flag pointing the the location of the certs on your operating system.
 	
 The default SSL Certificate location is `/usr/local/etc/openssl/cert.pem`  which works on macOS but every flavor of Linux puts root certificates in different places.
 
