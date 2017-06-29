@@ -24,7 +24,7 @@ macOS dependencies
 * Apple Xcode command line tools (for the compiler)
 * openssl via Brew
 * Export CPPFLAGS=-I/usr/local/opt/openssl/include and LDFLAGS=-L/usr/local/opt/openssl/lib
-* Open Keychain Access, export all certificates in System Roots to a single .pem file in `/usr/local/etc/openssl/cert.pem`
+* Open Keychain Access, export all certificates in System Roots folder to a single .pem file in `/usr/local/etc/openssl/cert.pem`
 
 # Install
 
