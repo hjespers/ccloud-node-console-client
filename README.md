@@ -38,9 +38,7 @@ Install ccloud-node-console-client from source on macOS
 Install ccloud-node-console-client from source on Ubuntu
 
 	sudo apt install nodejs-legacy
-	sudo apt install openssl-dev
-	sudo apt install libsasl2-dev
-	sudo apt install libsasl2-modules
+	sudo apt install openssl libssl-dev libsasl2-dev libsasl2-modules
 	sudo -E npm install -g ccloud-node-console-client
 
 
@@ -117,3 +115,9 @@ Install ccloud-node-console-client from source on Ubuntu
 If you see the following error when you run either console producer or consumer, it means you have not installed librdkafka correctly with the required SSL and SASL libraries. See install instructions for installoing openssl and setting compiler flags.
 
 	Caught error: Error: Invalid value for configuration property "security.protocol"
+	
+The default SSL Certificate location is `/usr/local/etc/openssl/cert.pem`  which works on macOS but every flavor of Linux puts root certificates in different places.
+
+For Ubuntu add the `-S /etc/ssl/certs` flag to specify your certificate location:
+
+	ccloud-console-producer -e $CCLOUD_BROKERS -k $CCLOUD_SASL_USERNAME -s $CCLOUD_SASL_PASSWORD -t mytopic -v -S /etc/ssl/certs
