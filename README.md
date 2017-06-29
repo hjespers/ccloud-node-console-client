@@ -13,18 +13,18 @@ Example console consumer and console producer using Node.JS and Confluent Cloud
 
 Linux dependencies
 
-* openssl-dev
+* openssl
+* libssl-dev
 * libsasl2-dev
 * libsasl2-modules
 * C++ toolchain
 
 macOS dependencies
 
-* Brew
 * Apple Xcode command line tools (for the compiler)
-* openssl via Brew
+* openssl installed via Brew (needed for root certs file in `/usr/local/etc/openssl/cert.pem`)
 * Export CPPFLAGS=-I/usr/local/opt/openssl/include and LDFLAGS=-L/usr/local/opt/openssl/lib
-* Open Keychain Access, export all certificates in System Roots folder to a single .pem file in `/usr/local/etc/openssl/cert.pem`
+
 
 # Install
 
@@ -120,7 +120,7 @@ The default SSL Certificate location is `/usr/local/etc/openssl/cert.pem`  which
 
 	Ubuntu: /etc/ssl/certs
 	RedHat: /etc/pki/tls/cert.pem
-	macOS: /usr/local/etc/openssl/cert.pem (which you must create)
+	macOS: /usr/local/etc/openssl/cert.pem (from `brew install openssl`)
 
 For Ubuntu add the `-S /etc/ssl/certs` flag to specify your certificate location:
 
