@@ -5,7 +5,7 @@ Example console consumer and console producer using Node.JS and Confluent Cloud
 
 * Up to date support for Confluent Cloud - Apache Kafka as a Service (see https://www.confluent.io/confluent-cloud/)
 * Up to date feature set from use of node-rdkafka node.js client (see https://github.com/Blizzard/node-rdkafka)
-* Tested on Linux, macOS
+* Tested on Ubuntu, CentOS, macOS, and Raspbian
 * Supports dynamic topic, key, value, and partition inputs
 * Supports 0.10 and 0.11 timestamps
 
@@ -127,7 +127,7 @@ If the ccloud-console-producer or ccloud-console-consumer immediately exits to t
 	
 The default SSL Certificate location is `/usr/local/etc/openssl/cert.pem`  which works on macOS but every flavor of Linux puts root certificates in different places.
 
-	Ubuntu: /etc/ssl/certs
+	Ubuntu/Debian/Raspbian: /etc/ssl/certs
 	CentOS/RedHat: /etc/pki/tls/cert.pem
 	macOS: /usr/local/etc/openssl/cert.pem (from `brew install openssl`)
 
