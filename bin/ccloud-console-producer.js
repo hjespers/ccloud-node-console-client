@@ -3,6 +3,7 @@
 
 var Kafka = require('node-rdkafka');
 
+
 var argv = require('optimist')
     .usage('Usage: $0 -e <endpoint> -k <apikey> -s <apisecret> -t <topic> -S <ssl ca location> -v')
     .demand(['e', 'k', 's', 't'])
@@ -21,7 +22,9 @@ var argv = require('optimist')
     .describe('S', 'SSL CA Location')
     .default('S', '/usr/local/etc/openssl/cert.pem')
     .alias('?', 'help')
-    .describe('?', 'Print usage information');
+    .describe('?', 'Print usage information')
+    .alias('V', 'version')
+    .describe('V', 'Print version information');
       
 argv = argv.argv;
 
@@ -33,11 +36,17 @@ if ( argv.help === true ) {
     console.log( '  -s, --apisecret  Confluent Cloud API Secret                  [required]');
     console.log( '  -t, --topic      Kafka Topic to consumer from                [required]');
     console.log( '  -v, --verbose    Verbose mode                                [boolean]');
+    console.log( '  -V, --version    Print version information                   [boolean]');
     console.log( '  -S, --sslcaloc   SSL CA Location (default = /usr/local/etc/openssl/cert.pem)');
     console.log( '  -?, --help       Print usage information                      ');
     process.exit();
 }
 
+if (argv.version) {
+    console.log('librdkafka version: ' + Kafka.librdkafkaVersion);
+    console.log('feature list: ' + Kafka.features);
+    process.exit();
+}
 
 var producer;
 try {

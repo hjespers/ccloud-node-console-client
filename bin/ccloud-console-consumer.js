@@ -26,7 +26,9 @@ var argv = require('optimist')
     .describe('S', 'SSL CA Location')
     .default('S', '/usr/local/etc/openssl/cert.pem')
     .alias('?', 'help')
-    .describe('?', 'Print usage information');
+    .describe('?', 'Print usage information')
+    .alias('V', 'version')
+    .describe('V', 'Print version information');
       
 argv = argv.argv;
 
@@ -38,6 +40,7 @@ if ( argv.help === true ) {
     console.log( '  -s, --apisecret  Confluent Cloud API Secret                  [required]');
     console.log( '  -t, --topic      Kafka Topic to consumer from                [required]');
     console.log( '  -v, --verbose    Verbose mode                                [boolean]');
+    console.log( '  -V, --version    Print version information                   [boolean]');
     console.log( '  -b, --beginning  Consume messages from beginning             [boolean]');
     console.log( '  -c, --cgid       Consumer Group ID                           [optional]');
     console.log( '  -S, --sslcaloc   SSL CA Location (default = /usr/local/etc/openssl/cert.pem)');
@@ -57,6 +60,12 @@ if (argv.beginning) {
 if (argv.verbose) {
     console.log('Using consumer group.id = ' + argv.cgid);
     console.log('Setting auto.offset.reset = ' + reset);
+}
+
+if (argv.version) {
+	console.log('librdkafka version: ' + Kafka.librdkafkaVersion);
+	console.log('feature list: ' + Kafka.features);
+    process.exit();
 }
 
 var consumer;
