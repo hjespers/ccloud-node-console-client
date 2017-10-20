@@ -119,7 +119,7 @@ Install ccloud-node-console-client from npm on CentOS
 
 # Troubleshooting
 
-If you see the following error when you run either console producer or consumer, it means you have not installed librdkafka correctly with the required SSL and SASL libraries. See install instructions for installoing openssl and setting compiler flags.
+If you see the following error when you run either console producer or consumer, it means you have not installed librdkafka correctly with the required SSL and SASL libraries. See install instructions for installing openssl and setting compiler flags.
 
 	Caught error: Error: Invalid value for configuration property "security.protocol"
 

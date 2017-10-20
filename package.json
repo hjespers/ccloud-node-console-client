@@ -1,8 +1,8 @@
 {
   "name": "ccloud-node-console-client",
-  "version": "0.0.3",
+  "version": "0.2.1",
   "description": "Example Node.JS producer/consumer for Confluent Cloud", "dependencies": {
-    "node-rdkafka": "^1.0.4",
+    "node-rdkafka": ">=2.1.1",
     "optimist": "~0.3.5",
     "prompt": "~1.0.0"
   },
